@@ -1,16 +1,20 @@
-var Calculadora{
+var Calculadora ={
 
 	/* Declaración de variable*/
 
 	pantalla: document.getElementById("display").innerHTML,
-
+	ids: {'0':'0','1':'1','2':'2','3':'3','4':'4','5':'5','6':'6','7':'7','8':'8','9':'9','.':'punto',
+	's':'sign','+':'mas','-':'menos','*':'por','/':'dividido','r':'raiz','Enter':'igual','Escape':'on'},
 
 	init: (
 		function(){
 			this.EventosClick();
+			document.onmousedown = this.manejadorMouseDown;
+			document.onmouseup = this.manejadorMouseUp;
+			document.onkeydown = this.manejadorKeyDown;
+			document.onkeyup = this.manejadorKeyUp;
 		}
 	),
-
 
 	EventosClick: function(){
 
@@ -34,12 +38,34 @@ var Calculadora{
 		document.getElementById("por").addEventListener("click",function(){Calculadora.por()});
 
 	},
+	viewnum: function(x){
+		console.log(x);
+	},
+	manejadorMouseDown: function(e){
+		if(e.target.classList[0] == 'tecla'){
+			document.getElementById(e.target.id).style.transform = 'scale(0.9,0.9)';
+			setTimeout(function() {document.getElementById(e.target.id).style.transform="scale(1)";}, 1000);
+		}
+	},
+	manejadorMouseUp: function(e){
+		document.getElementById(e.target.id).style.transform = 'scale(1)';
+	},
+
+	manejadorKeyDown: function(e) {
+		console.log(e);
+		document.getElementById(Calculadora.ids[e.key]).style.transform = 'scale(0.9,0.9)';
+		setTimeout(function() {document.getElementById(Calculadora.ids[e.key]).style.transform="scale(1)";}, 200);
+	},
+
+	manejadorKeyUp: function(e) {
+		document.getElementById(Calculadora.keys[e.key]).style.transform = 'scale(1)';
+	},
 };
 
-window.onload = function() {
+window.onload = function(){
 
 	Calculadora.init();
 
 	console.log('Calculadora inicianda')
 
-};
+}
