@@ -69,50 +69,96 @@ var Calculadora ={
 		}
 	},
 
-		/*funcion restar*/
-			menos: function(){
-			    this.press("menos");
-				this.num1 = Number(this.pantalla);
-				console.log(this.num1),
-				this.pantalla = "",
-				this.opcion = 2,
-				this.viewdisplay();
-		},
+	/*funcion sumar*/
+	mas: function(){
+		    this.press("mas");
+			this.num1 = Number(this.pantalla),
+			this.pantalla = "",
+			this.opcion = 1,
+			this.estado = 0,
+			this.viewdisplay();
+	},
+	/*funcion restar*/
+		menos: function(){
+		    this.press("menos");
+			this.num1 = Number(this.pantalla);
+			this.pantalla = "",
+			this.opcion = 2,
+			this.estado = 0,
+			this.viewdisplay();
+	},
+	/*funcion multiplica*/
 
-		/*funcion multiplica*/
+		por: function(){
+		    this.press("por");
+			this.num1 = Number(this.pantalla),			
+			this.pantalla = "",
+			this.opcion = 3,
+			this.estado = 0,
+			this.viewdisplay();
 
-			por: function(){
-			    this.press("por");
-				this.num1 = Number(this.pantalla),
-				console.log(this.num1),
-				this.pantalla = "",
-				this.opcion = 3,
-				this.viewdisplay();
+	},
+	/*funcion dividir*/
 
-		},
+		dividido: function(){
+		    this.press("dividido");
+			this.num1 = Number(this.pantalla),
+			this.pantalla = "",
+			this.opcion = 4,
+			this.estado = 0,
+			this.viewdisplay();
+	},
 
-		/*funcion dividir*/
+	/*función igual*/
+	igual: function(){
 
-			dividido: function(){
-			    this.press("dividido");
-				this.num1 = Number(this.pantalla),
-				console.log(this.num1),
-				this.pantalla = "",
-				this.opcion = 4,
-				this.viewdisplay();
-		},
-
-		/*funcion sumar*/
-
-		mas: function(){
-			    this.press("mas");
-				this.num1 = Number(this.pantalla),
-				console.log(this.num1),
-				this.pantalla = "",
-				this.opcion = 1,
-				this.viewdisplay();
-		},
-
+		this.press("igual");
+		switch(this.opcion){
+			case 1:
+				if(this.estado == 0){
+					this.auxnum = Number(this.pantalla),
+					this.pantalla = this.num1 + Number(this.pantalla),
+					this.estado = 1,
+					this.num1 = 0;
+				}else{
+					this.pantalla = Number(this.pantalla)+this.auxnum;
+				}
+				break;
+			case 2:
+				if(this.estado == 0){
+					this.auxnum = Number(this.pantalla),
+					this.pantalla = this.num1 - Number(this.pantalla),
+					this.estado = 1,
+					this.num1 = 0;
+				}else{
+					this.pantalla = Number(this.pantalla)-this.auxnum;
+				}
+				break;
+			case 3:
+				if(this.estado == 0){
+					this.auxnum = Number(this.pantalla),
+					this.pantalla = this.num1 * Number(this.pantalla),
+					this.estado = 1,
+					this.num1 = 0;
+				}else{
+					this.pantalla = Number(this.pantalla)*this.auxnum;
+				}
+				break;
+			case 4:
+				if(this.estado == 0){
+					this.auxnum = Number(this.pantalla),
+					this.pantalla = this.num1 / Number(this.pantalla),
+					this.estado = 1,
+					this.num1 = 0;
+				}else{
+					this.pantalla = Number(this.pantalla)/this.auxnum;
+				}
+				break;
+			default:
+				break;
+		}
+		this.viewdisplay();
+	},
 
 	/* funcion limpieza*/
 	on: function(){
