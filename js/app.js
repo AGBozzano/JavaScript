@@ -3,16 +3,19 @@ var Calculadora ={
 	/* Declaración de variable*/
 
 	pantalla: document.getElementById("display").innerHTML,
-	ids: {'0':'0','1':'1','2':'2','3':'3','4':'4','5':'5','6':'6','7':'7','8':'8','9':'9','.':'punto',
-	's':'sign','+':'mas','-':'menos','*':'por','/':'dividido','r':'raiz','Enter':'igual','Escape':'on'},
+	decimal: 0,
+	signo: 0,
+	controlen: 8,
+	stop: 0,
+	num1: 0,
+	opcion: 0,
+	auxnum: 0,
+	estado: 0,
+	auxresultado: 0,
 
 	init: (
 		function(){
 			this.EventosClick();
-			document.onmousedown = this.manejadorMouseDown;
-			document.onmouseup = this.manejadorMouseUp;
-			document.onkeydown = this.manejadorKeyDown;
-			document.onkeyup = this.manejadorKeyUp;
 		}
 	),
 
@@ -38,34 +41,47 @@ var Calculadora ={
 		document.getElementById("por").addEventListener("click",function(){Calculadora.por()});
 
 	},
-	viewnum: function(x){
-		console.log(x);
+
+	press: function(tecla){
+		document.getElementById(tecla).style.transform="scale(0.9)";
+		setTimeout(function() {document.getElementById(tecla).style.transform="scale(1)";}, 200);
 	},
-	manejadorMouseDown: function(e){
-		if(e.target.classList[0] == 'tecla'){
-			document.getElementById(e.target.id).style.transform = 'scale(0.9,0.9)';
-			setTimeout(function() {document.getElementById(e.target.id).style.transform="scale(1)";}, 1000);
+	viewnum: function(valor){
+
+		this.press(valor)
+		if(this.signo == 1 && this.stop == 0){
+			this.controlen += 1,
+			this.stop = 1;
+		}
+
+		if(this.decimal == 1  && this.stop == 0){
+			this.controlen += 1,
+			this.stop = 1;
+		}
+
+		if(this.pantalla.length < this.controlen){
+			if(this.pantalla != "0"){
+				this.pantalla += valor;
+			}else if(valor != 0){
+				this.pantalla = "",
+				this.pantalla += valor;
+			}
+			this.viewdisplay();
 		}
 	},
-	manejadorMouseUp: function(e){
-		document.getElementById(e.target.id).style.transform = 'scale(1)';
-	},
+	/*imprime en pantalla*/
+		viewdisplay: function(){
+			if(this.pantalla.toString().length > this.controlen){
+				this.pantalla = this.pantalla.toString().substring(0,8);
+			}
+			document.getElementById("display").innerHTML = this.pantalla;
+		}
+	
 
-	manejadorKeyDown: function(e) {
-		console.log(e);
-		document.getElementById(Calculadora.ids[e.key]).style.transform = 'scale(0.9,0.9)';
-		setTimeout(function() {document.getElementById(Calculadora.ids[e.key]).style.transform="scale(1)";}, 200);
-	},
 
-	manejadorKeyUp: function(e) {
-		document.getElementById(Calculadora.keys[e.key]).style.transform = 'scale(1)';
-	},
 };
 
 window.onload = function(){
-
 	Calculadora.init();
-
-	console.log('Calculadora inicianda')
-
+	console.log('Calculadora iniciada')
 }
