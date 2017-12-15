@@ -10,7 +10,6 @@ var Calculadora ={
 	opcion: 0,
 	auxnum: 0,
 	estado: 0,
-	auxresultado: 0,
 
 
 	/*Declaracion de inicio*/
@@ -62,6 +61,7 @@ var Calculadora ={
 			if(this.pantalla != "0"){
 				this.pantalla += valor;
 			}else if(valor != 0){
+				console.log("llego 4");
 				this.pantalla = "";
 				this.pantalla += valor;
 			}
@@ -83,7 +83,6 @@ var Calculadora ={
 			this.pantalla = "";
 			this.opcion = 1;
 			this.decimal= 0;
-			this.signo = 0;
 			this.estado = 0;
 			this.mostrar();
 		},
@@ -99,8 +98,7 @@ var Calculadora ={
 			this.auxnum=this.num1;
 			this.pantalla = "";
 			this.opcion = 2;
-			this.decimal= 0;
-			this.signo = 0;
+			this.decimal= 0;		
 			this.estado = 0;
 			this.mostrar();
 		},
@@ -117,8 +115,7 @@ var Calculadora ={
 			this.auxnum=this.num1;	
 			this.pantalla = "";
 			this.opcion = 3;
-			this.decimal= 0;
-			this.signo = 0;
+			this.decimal= 0;		
 			this.estado = 0;
 			this.mostrar();
 		},
@@ -135,8 +132,7 @@ var Calculadora ={
 			this.auxnum=this.num1;
 			this.pantalla = "";
 			this.opcion = 4;
-			this.decimal= 0;
-			this.signo = 0;
+		
 			this.estado = 0;
 			this.mostrar();
 		},
@@ -152,8 +148,10 @@ var Calculadora ={
 					this.pantalla = this.num1 + Number(this.pantalla);
 					this.estado = 1;
 					this.num1 = 0;
+					this.pantalla = this.pantalla.toString();
 				}else{
 					this.pantalla = Number(this.pantalla)+this.auxnum;
+					this.pantalla = this.pantalla.toString();
 				}
 				break;
 			case 2:
@@ -162,8 +160,10 @@ var Calculadora ={
 					this.pantalla = this.num1 - Number(this.pantalla);
 					this.estado = 1;
 					this.num1 = 0;
+					this.pantalla = this.pantalla.toString();
 				}else{
 					this.pantalla = Number(this.pantalla)-this.auxnum;
+					this.pantalla = this.pantalla.toString();
 				}
 				break;
 			case 3:
@@ -172,8 +172,10 @@ var Calculadora ={
 					this.pantalla = this.num1 * Number(this.pantalla);
 					this.estado = 1;
 					this.num1 = 0;
+					this.pantalla = this.pantalla.toString();
 				}else{
 					this.pantalla = Number(this.pantalla)*this.auxnum;
+					this.pantalla = this.pantalla.toString();
 				}
 				break;
 			case 4:
@@ -182,8 +184,10 @@ var Calculadora ={
 					this.pantalla = this.num1 / Number(this.pantalla);
 					this.estado = 1;
 					this.num1 = 0;
+					this.pantalla = this.pantalla.toString();
 				}else{
 					this.pantalla = Number(this.pantalla)/this.auxnum;
+					this.pantalla = this.pantalla.toString();
 				}
 				break;
 			default:
@@ -194,15 +198,15 @@ var Calculadora ={
 	/* función estado negativo o positivo*/
 	sign: function(){
 		this.press("sign");
-		if(this.pantalla != 0){
+		
 			if(this.signo == 0){
 				this.pantalla = "-" + this.pantalla;
 				this.signo = 1;
-			}else{
-				this.pantalla = this.pantalla.slice(1);
+			}else if(this.signo == 1){
+				this.pantalla = this.pantalla.toString().replace("-","");
 				this.signo = 0;
 			}
-		}
+		
 		this.mostrar();
 	},
 	/*función decimal*/
@@ -210,8 +214,9 @@ var Calculadora ={
 		this.press("punto");
 		if(this.decimal == 0){
 			this.pantalla += ".";
+		    this.decimal = 1;
 		}
-		this.decimal = 1;
+
 		this.mostrar();
 	},
 	/* funcion limpieza*/
@@ -226,7 +231,6 @@ var Calculadora ={
 		this.estado = 0;
 		this.auxnum = 0;
 		this.opcion = 0;
-		this.auxresultado = 0;
 		this.mostrar();
 	},
 
@@ -234,7 +238,7 @@ var Calculadora ={
 		mostrar: function(){
 
 			var res= this.pantalla;
-			if (res > 99999999 || res.length>this.controlen){
+			if (res > 99999999 && res.length>this.controlen){
 				res = 'Off Limits';
 			}else if(res.toString().indexOf('.') != -1 && res.toString().indexOf('-') != -1){
 				res = res.toString().slice(0,10);
